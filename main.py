@@ -11,9 +11,15 @@ def foo(x):
         return foo(x-1) + foo(x-2)
 
 def longest_run(mylist, key):
-    ### TODO
-    pass
-
+    max_length = 0
+    cur_length = 0
+    for num in array:
+        if num == key:
+            cur_length += 1
+            max_length = max(max_length, cur_length)
+        else:
+            cur_length = 0
+    return max_length
 
 class Result:
     """ done """
@@ -39,8 +45,35 @@ def to_value(v):
         return int(v)
         
 def longest_run_recursive(mylist, key):
-    ### TODO
-    pass
+    return _longest_run_recursive(mylist, key).longest_size
 
+def _longest_run_recursive(mylist, key):
+    if len(mylist) == 1:
+        if mylist[0] == key:
+            return Result(1, 1, 1, True)
+        else:
+            return Result(0, 0, 0, False)
+    mid = len(mylist) // 2
+    result_left = _longest_run_recursive(mylist[:mid], key)
+    result_right = _longest_run_recursive(mylist[mid:], key)
+    return combine_results(result_left, result_right)
+
+def combine_results(result1, result2):
+    if result1.is_entire_range and result2.is_entire_range:
+        total = result1.longeset_size + result2.longeset_size
+        return Result(total, total, total, True)
+
+    left_size = result1.left_size
+    if result1.is_entire_range:
+        left_size += result2.left_size
+    
+    right_size = result1.right_size
+    if result2.is_entire_range:
+        right_size += result2.right_size
+
+    overlap = result1.right_size + result2.left_size
+    longest_run = max(overlap, result1.longest_size, result2.longest_size)
+    return Result(left_size, right_size, longest_run, False)
+    
 
 
