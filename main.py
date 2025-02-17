@@ -51,8 +51,8 @@ def longest_run_recursive(mylist, key):
         else:
             return Result(0, 0, 0, False)
     mid = len(mylist) // 2
-    result_left = _longest_run_recursive(mylist[:mid], key)
-    result_right = _longest_run_recursive(mylist[mid:], key)
+    result_left = longest_run_recursive(mylist[:mid], key)
+    result_right = longest_run_recursive(mylist[mid:], key)
     
     if result1.is_entire_range and result2.is_entire_range:
         total = result1.longeset_size + result2.longeset_size
