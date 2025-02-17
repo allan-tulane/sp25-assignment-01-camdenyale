@@ -16,9 +16,10 @@ def longest_run(mylist, key):
 
     for num in mylist:
         if num == key:
-            current_count+=1
+            current_count += 1
             max_count = max(max_count, current_count)
-        else: current_count = 0
+        else: 
+            current_count = 0
 
     return max_count
 
