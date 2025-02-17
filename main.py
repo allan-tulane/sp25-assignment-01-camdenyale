@@ -45,11 +45,11 @@ def to_value(v):
         return int(v)
         
 def longest_run_recursive(mylist, key):
+    if not mylist:
+        return Result (0, 0, 0, False)
     if len(mylist) == 1:
-        if mylist[0] == key:
-            return Result(1, 1, 1, True)
-        else:
-            return Result(0, 0, 0, False)
+        count = 1 if mylist[0] == key else 0
+        return Result(count, count, count, count == 1)
     mid = len(mylist) // 2
     result_left = longest_run_recursive(mylist[:mid], key)
     result_right = longest_run_recursive(mylist[mid:], key)
@@ -66,9 +66,11 @@ def longest_run_recursive(mylist, key):
     if result2.is_entire_range:
         right_size += result2.right_size
 
-    overlap = result1.right_size + result2.left_size
-    longest_run = max(overlap, result1.longest_size, result2.longest_size)
-    return Result(left_size, right_size, longest_run, False)
+    combined = left_result.right_size + right_result.left_size if mylist[middle-1] == key and mylist[middle] == key else 0
+    longest_run = max(left_result.longest_size, right_result.longest_size, combined)
+
+    is_entire_range = left_result.is_entire_range and right_result.is_entire_range
+    return Result(left_size, right_size, longest_run, is_entire_range)
     
 
 
