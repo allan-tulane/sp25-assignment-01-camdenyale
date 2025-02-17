@@ -47,27 +47,28 @@ def to_value(v):
 def longest_run_recursive(mylist, key):
     if not mylist:
         return Result (0, 0, 0, False)
+    
     if len(mylist) == 1:
         count = 1 if mylist[0] == key else 0
         return Result(count, count, count, count == 1)
-    mid = len(mylist) // 2
-    result_left = longest_run_recursive(mylist[:mid], key)
-    result_right = longest_run_recursive(mylist[mid:], key)
-
-
-    left_size = result_left.left_size
-    if result_left.is_entire_range:
-        left_size += result_right.left_size
     
-    right_size = result_right.right_size
-    if result_right.is_entire_range:
-        right_size += result_left.right_size
+    middle = len(mylist)//2
+    left_result = longest_run_recursive(mylist[:middle], key)
+    right_result = longest_run_recursive(mylist[middle:], key)
 
-    combined = left_result.right_size + result_right.left_size if mylist[mid-1] == key and mylist[mid] == key else 0
-    longest_run = max(result_left.longest_size, result_right.longest_size, combined)
+    left_size = left_result.left_size
+    if left_result.is_entire_range:
+        left_size += right_result.left_size
 
-    is_entire_range = result_left.is_entire_range and right_result.is_entire_range
-    return Result(left_size, right_size, longest_run, is_entire_range)
+    right_size = right_result.right_size
+    if right_result.is_entire_range:
+        right_size += left_result.right_size
+
+    combined_size = left_result.right_size + right_result.left_size if mylist[middle-1] == key and mylist[middle] == key else 0
+    longest_size = max(left_result.longest_size, right_result.longest_size, combined_size)
+
+    is_entire_range = left_result.is_entire_range and right_result.is_entire_range
+    return Result(left_size, right_size, longest_size, is_entire_range)
     
 
 
