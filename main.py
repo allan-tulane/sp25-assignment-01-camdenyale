@@ -66,10 +66,10 @@ def longest_run_recursive(mylist, key):
     if result2.is_entire_range:
         right_size += result2.right_size
 
-    combined = left_result.right_size + right_result.left_size if mylist[middle-1] == key and mylist[middle] == key else 0
-    longest_run = max(left_result.longest_size, right_result.longest_size, combined)
+    combined = left_result.right_size + result_right.left_size if mylist[mid-1] == key and mylist[mid] == key else 0
+    longest_run = max(result_left.longest_size, result_right.longest_size, combined)
 
-    is_entire_range = left_result.is_entire_range and right_result.is_entire_range
+    is_entire_range = result_left.is_entire_range and right_result.is_entire_range
     return Result(left_size, right_size, longest_run, is_entire_range)
     
 
